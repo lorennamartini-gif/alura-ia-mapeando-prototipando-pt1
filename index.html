@@ -1,1 +1,191 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LifePulse - Organizador de Rotinas</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
+    <!-- Fundo com objetos 3D flutuantes -->
+    <div class="bg-container">
+        <div class="circle circle-1"></div>
+        <div class="circle circle-2"></div>
+        <div class="circle circle-3"></div>
+        <div class="circle circle-4"></div>
+        <div class="circle circle-5"></div>
+    </div>
+
+    <!-- Conteúdo principal -->
+    <div class="main-content">
+        <header>
+            <h1 class="title">LifePulse</h1>
+            <p class="subtitle">Equilibre sua jornada diária com foco e clareza</p>
+        </header>
+
+        <main class="grid-container">
+            <!-- Card Estudo -->
+            <div class="card" onclick="openModal('estudo')">
+                <div class="card-icon">📚</div>
+                <h3>Estudo</h3>
+                <p>Cursos, leitura e desenvolvimento de habilidades.</p>
+                <span class="card-btn">Ver Detalhes</span>
+            </div>
+
+            <!-- Card Trabalho -->
+            <div class="card" onclick="openModal('trabalho')">
+                <div class="card-icon">💼</div>
+                <h3>Trabalho</h3>
+                <p>Projetos, metas profissionais e tarefas diárias.</p>
+                <span class="card-btn">Ver Detalhes</span>
+            </div>
+
+            <!-- Card Família -->
+            <div class="card" onclick="openModal('familia')">
+                <div class="card-icon">🏡</div>
+                <h3>Família</h3>
+                <p>Tempo de qualidade, compromissos e momentos juntos.</p>
+                <span class="card-btn">Ver Detalhes</span>
+            </div>
+
+            <!-- Card Academia -->
+            <div class="card" onclick="openModal('academia')">
+                <div class="card-icon">🏋️‍♂️</div>
+                <h3>Academia</h3>
+                <p>Treinos, exercícios físicos e consistência corporal.</p>
+                <span class="card-btn">Ver Detalhes</span>
+            </div>
+
+            <!-- Card Amizades -->
+            <div class="card" onclick="openModal('amizades')">
+                <div class="card-icon">🤝</div>
+                <h3>Amizades</h3>
+                <p>Encontros, conversas e fortalecimento de laços.</p>
+                <span class="card-btn">Ver Detalhes</span>
+            </div>
+
+            <!-- Card Saúde -->
+            <div class="card" onclick="openModal('saude')">
+                <div class="card-icon">🩺</div>
+                <h3>Saúde</h3>
+                <p>Alimentação, sono, consultas e bem-estar mental.</p>
+                <span class="card-btn">Ver Detalhes</span>
+            </div>
+        </main>
+    </div>
+
+    <!-- Estrutura do Modal -->
+    <div class="modal-overlay" id="modalOverlay" onclick="closeModalOnOverlay(event)">
+        <div class="modal-card">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <div class="modal-icon" id="modalIcon">📌</div>
+            <h2 id="modalTitle">Título da Rotina</h2>
+            <div class="modal-body" id="modalBody">
+                <!-- Conteúdo dinâmico injetado via JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts JavaScript -->
+    <script>
+        const routineData = {
+            estudo: {
+                title: "Rotina de Estudos",
+                icon: "📚",
+                tasks: [
+                    "08:00 - Leitura técnica ou capítulo de livro (30 min)",
+                    "14:00 - Bloco de foco de estudos/curso (1h30)",
+                    "19:00 - Revisão de anotações e flashcards",
+                    "Meta da semana: Concluir 3 módulos do curso principal."
+                ]
+            },
+            trabalho: {
+                title: "Rotina de Trabalho",
+                icon: "💼",
+                tasks: [
+                    "09:00 - Planejamento do dia e organização de prioridades",
+                    "09:30 - Checagem rápida de e-mails e mensagens",
+                    "10:00 - Deep Work: Tarefas de alta prioridade",
+                    "16:00 - Alinhamentos, reuniões e fechamento de pendências"
+                ]
+            },
+            familia: {
+                title: "Rotina da Família",
+                icon: "🏡",
+                tasks: [
+                    "07:30 - Café da manhã sem telas com a família",
+                    "18:30 - Tempo de conversa e auxílio com afazeres da casa",
+                    "20:00 - Jantar em conjunto",
+                    "Fim de semana: Passeio ao ar livre ou almoço em família."
+                ]
+            },
+            academia: {
+                title: "Rotina de Academia & Treino",
+                icon: "🏋️‍♂️",
+                tasks: [
+                    "06:30 - Hidratação e pré-treino",
+                    "07:00 - Musculação / Treino diário (Foco: Hipertrofia/Cardio)",
+                    "18:00 - Caminhada leve pós-expediente (opcional)",
+                    "Meta semanal: Manter a frequência de 4 a 5 dias de treino."
+                ]
+            },
+            amizades: {
+                title: "Rotina de Amizades",
+                icon: "🤝",
+                tasks: [
+                    "Quarta-feira: Enviar mensagem para saber como estão os amigos",
+                    "Sexta/Sábado: Encontro social ou chamada de vídeo",
+                    "Planejar pequenos eventos ou viagens em grupo ao longo do mês."
+                ]
+            },
+            saude: {
+                title: "Rotina de Saúde & Bem-estar",
+                icon: "🩺",
+                tasks: [
+                    "Bebida diária: Meta de 2.5L a 3L de água",
+                    "Alimentação equilibrada nas refeições principais",
+                    "22:30 - Início do ritual de sono (desconectar de telas)",
+                    "Check-ups médicos e exames em dia."
+                ]
+            }
+        };
+
+        function openModal(key) {
+            const data = routineData[key];
+            if (!data) return;
+
+            document.getElementById('modalIcon').innerText = data.icon;
+            document.getElementById('modalTitle').innerText = data.title;
+            
+            const bodyContainer = document.getElementById('modalBody');
+            bodyContainer.innerHTML = '';
+
+            const list = document.createElement('ul');
+            list.className = 'modal-list';
+            
+            data.tasks.forEach(task => {
+                const li = document.createElement('li');
+                li.innerText = task;
+                list.appendChild(li);
+            });
+
+            bodyContainer.appendChild(list);
+
+            const modal = document.getElementById('modalOverlay');
+            modal.classList.add('active');
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('modalOverlay');
+            modal.classList.remove('active');
+        }
+
+        function closeModalOnOverlay(event) {
+            if (event.target.id === 'modalOverlay') {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>
